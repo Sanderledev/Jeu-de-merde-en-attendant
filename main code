@@ -72,6 +72,7 @@ lost_german = ""
 lost_german_c = ""
 lost_german_b = ""
 random_lost_german = ""
+random_lost = ""
 
 ### Attaque du joueur ###
 
@@ -199,7 +200,13 @@ if france == 1:
         print("L'allemagne vous attaque. L'allemagne attaque avec :", random_attack_troups)
         if random_attack_troups == "soldats":
             if soldiers_germany >= soldiers:
-                print("")
+                random_lost = random.randint(1, 5)
+                soldiers = soldiers - random_lost
+                print("Tu as maintenant :", soldiers, "soldats.")
+            if soldiers_germany <= soldiers:
+                print("L'allemagne ne peut pas vous attaquer...")
+            if soldiers == 0:
+                print("L'allemagne ne peut pas vous attaquer...")
 
 if germany == 1:
     print("C'est le tour de la france !")
