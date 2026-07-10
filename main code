@@ -1,0 +1,151 @@
+import random
+from prompt_toolkit import prompt
+from prompt_toolkit.completion import WordCompleter
+
+country_completer = WordCompleter(["france", "germany"], ignore_case=True)
+action_completer = WordCompleter(["attaquer", "carte"], ignore_case=True)
+yes_no_completer = WordCompleter(["yes", "no"], ignore_case=True)
+troupes_completer = WordCompleter(
+    ["soldats", "cavaliers", "bateaux", "avions"],
+    ignore_case=True
+)
+
+france = 0
+germany = 0
+
+suite = ("france or germany.")
+
+print("Choisis ton pays :", suite)
+print("Fais pas de faute(s)!")
+
+country = prompt("> ", completer=country_completer).lower()
+
+if country == "france" or country == "germany":
+    if country == "france":
+        print("Ton pays est la france !")
+        france = 1
+    if country == "germany":
+        print("Ton pays est l'allemagne !")
+        germany = 1
+else:
+    print("BRUH ! Réessaye !")
+
+suite1 = [france, germany]
+print(suite1)
+
+soldiers = 10
+soldiers_germany = 10
+cavaliers = 1
+cavaliers_germany = 1
+war_boat = 0
+war_boat_germany = 0
+war_aircraft = 0
+war_aircraft_germany = 0
+
+if france == 1:
+    print("Soldiers =", soldiers)
+    print("Cavaliers =", cavaliers)
+    print("War_boat =", war_boat)
+    print("War_aircraft =", war_aircraft)
+else:
+    print("Soldiers =", soldiers_germany)
+    print("Cavaliers =", cavaliers_germany)
+    print("War_boat =", war_boat_germany)
+    print("War_aircraft =", war_aircraft_germany)
+
+print("------------------------------------")
+print("LA GUERRE PEUT COMMENCER !!!")
+print()
+
+print("C'est ton tour que veux tu faire ? Tu as le choix entre ces deux options :")
+print("-attaquer")
+print("-carte (bonus)")
+
+option_1 = prompt("> ", completer=action_completer).lower()
+
+attack = ""
+bonus_card = ["+1 soldiers", "+1 cavaliers", "none"]
+random_card = ""
+card = ""
+troups = ""
+lost_german = ""
+lost_german_c = ""
+random_lost_german = ""
+
+if option_1 == "attaquer":
+
+    print("Veux-tu attaquer ? (Yes or No)")
+    attack = prompt("> ", completer=yes_no_completer).lower()
+
+    if attack == "yes" or "Yes" or "YES":
+
+        if france == 1:
+            print("L'allemagne a :", soldiers_germany, "soldats,", cavaliers_germany, "cavaliers,", war_boat_germany, "bateaux et", war_aircraft, "avions")
+            print("Choisi tes troupes : soldats, cavaliers, bateaux et avions.")
+
+            troups = prompt("> ", completer=troupes_completer).lower()
+
+            if troups == "soldats" or "soldat" or "soldiers":
+                print("Vous attaquez avec :", soldiers, "soldats.")
+                if soldiers >= soldiers_germany:
+                    print("Vous gagnez le combat. L'allemagne perd des troupes.")
+                    random_lost_german = random.randint(1, 5)
+
+                if random_lost_german < soldiers_germany:
+                    soldiers_germany = soldiers_germany - random_lost_german
+                    print("L'allemagne a perdu", random_lost_german, "soldats et passe maintenant à", soldiers_germany, "soldats.")
+
+                if soldiers_germany == 0:
+                    print("Vous ne pouvez pas attaquer ces troupes...")
+
+                if random_lost_german > soldiers_germany:
+                    soldiers_germany -= 1
+                    print("L'allemagne a perdu 1 soldat et passe maintenant à", soldiers_germany, "soldats.")
+
+            if troups == "cavaliers" and cavaliers_germany >= 3:
+                print("Vous attaquez avec :", cavaliers, "cavaliers.")
+                if cavaliers >= cavaliers_germany:
+                    print("Vous gagnez le combat. L'allemagne perd ses troupes :", cavaliers_germany, "cavaliers.")
+                    lost_german_c = 1
+
+                if cavaliers_germany == 0:
+                    print("Vous ne pouvez pas attaquer ces troupes...")
+
+        if germany == 1:
+            print("La france a :", soldiers, "soldats,", cavaliers, "cavaliers,", war_boat, "bateaux et", war_aircraft, "avions.")
+
+if option_1 == "carte":
+
+    print("Veux-tu tirer une carte bonus ? (Yes or No)")
+    card = prompt("> ", completer=yes_no_completer).lower()
+
+    if card == "yes" or "Yes" or "YES":
+
+        random_card = random.choice(bonus_card)
+        print("Tu as reçu la carte :", random_card)
+
+        if random_card == "+1 soldiers" and france == 1:
+            soldiers += 1
+            print("La france a :", soldiers, "soldats.")
+
+        if random_card == "+1 cavaliers" and france == 1:
+            cavaliers += 1
+            print("La france a :", cavaliers, "cavaliers.")
+
+        if random_card == "none" and france == 1:
+            print("Il ne s'est rien passé... C'est maintenant le tour de l'adversaire.")
+
+        if random_card == "+1 soldiers" and germany == 1:
+            soldiers_germany += 1
+            print("L'allemagne a :", soldiers_germany, "soldats.")
+
+        if random_card == "+1 cavaliers" and germany == 1:
+            cavaliers_germany += 1
+            print("L'allemagne a :", cavaliers_germany, "cavaliers.")
+
+        if random_card == "none" and germany == 1:
+            print("Il ne s'est rien passé... C'est maintenant le tour de l'adversaire.")
+
+    else:
+        print("C'est le tour de l'adversaire !")
+
