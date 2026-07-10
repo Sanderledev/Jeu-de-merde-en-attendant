@@ -70,20 +70,23 @@ card = ""
 troups = ""
 lost_german = ""
 lost_german_c = ""
+lost_german_b = ""
 random_lost_german = ""
+
+### Attaque du joueur ###
 
 if option_1 == "attaquer":
 
     print("Veux-tu attaquer ? (Yes or No)")
     attack = prompt("> ", completer=yes_no_completer).lower()
 
-    if attack == "yes" or "Yes" or "YES":
+    if attack == "yes":
 
         if france == 1:
             print("L'allemagne a :", soldiers_germany, "soldats,", cavaliers_germany, "cavaliers,", war_boat_germany, "bateaux et", war_aircraft, "avions")
             print("Choisi tes troupes : soldats, cavaliers, bateaux et avions.")
 
-            troups = prompt("> ", completer=troupes_completer).lower()
+            troups = prompt("Troupes > ", completer=troupes_completer).lower()
 
             if troups == "soldats" or "soldat" or "soldiers":
                 print("Vous attaquez avec :", soldiers, "soldats.")
@@ -105,14 +108,30 @@ if option_1 == "attaquer":
             if troups == "cavaliers" and cavaliers_germany >= 3:
                 print("Vous attaquez avec :", cavaliers, "cavaliers.")
                 if cavaliers >= cavaliers_germany:
-                    print("Vous gagnez le combat. L'allemagne perd ses troupes :", cavaliers_germany, "cavaliers.")
+                    print("Vous gagnez le combat. L'allemagne perd des troupes :", cavaliers_germany, "cavaliers.")
                     lost_german_c = 1
 
                 if cavaliers_germany == 0:
                     print("Vous ne pouvez pas attaquer ces troupes...")
 
+            if troups == "bateaux":
+                print("Vous attaquez avec :", war_boat, "bateaux.")
+                if war_boat >= war_boat_germany:
+                    print("Vous gagnez le combat. L'allemagne perd des troupes :", war_boat_germany, "bateaux.")
+                    lost_german_b = 1
+
+                if war_boat_germany == 0:
+                    print("Vous ne pouvez pas attaquer ces troupes...")
+
+            if troups == "avions":
+                print
+
+
         if germany == 1:
             print("La france a :", soldiers, "soldats,", cavaliers, "cavaliers,", war_boat, "bateaux et", war_aircraft, "avions.")
+        
+
+### Carte bonus du joueur ###
 
 if option_1 == "carte":
 
@@ -149,3 +168,65 @@ if option_1 == "carte":
     else:
         print("C'est le tour de l'adversaire !")
 
+attack_or_card = ["attaquer", "attaquer", "attaquer", "attaquer", "carte", "carte", "carte", "carte", "carte",]
+attack_troups = ["soldats", "cavaliers", "bateaux", "avions"]
+random_attack_or_card = ""
+random_attack_troups = ""
+
+print()
+print("--------------------------------------")
+print()
+
+### Attaque du bot ###
+
+if france == 1:
+    print("C'est le tour de l'allemagne !")
+    random_attack_or_card = random.choice(attack_or_card)
+    print("L'allemagne fait :", random_attack_or_card)
+    if random_attack_or_card == "carte":
+        random_card = random.choice(bonus_card)
+        print("L'allemagne a pioché la carte :", random_card)
+        if random_card == "+1 soldiers":
+            soldiers_germany += 1
+            print("L'allemagne a :", soldiers_germany, "soldats.")
+        if random_card == "+1 cavaliers":
+            cavaliers_germany += 1
+            print("L'allemagne a :", cavaliers_germany, "cavaliers.")
+        if random_card == "none":
+            print("Il ne s'est rien passé.")
+    if random_attack_or_card == "attaquer":
+        random_attack_troups = random.choice(attack_troups)
+        print("L'allemagne vous attaque. L'allemagne attaque avec :", random_attack_troups)
+        if random_attack_troups == "soldats":
+            if soldiers_germany >= soldiers:
+                print("")
+
+if germany == 1:
+    print("C'est le tour de la france !")
+    random_attack_or_card = random.choice(attack_or_card)
+    print("La france fait :", random_attack_or_card)
+    if random_attack_or_card == "carte":
+        random_card = random.choice(bonus_card)
+        print("La france a pioché la carte :", random_card)
+        if random_card == "+1 soldiers":
+            soldiers += 1
+            print("La france a :", soldiers, "soldats.")
+        if random_card == "+1 cavaliers":
+            cavaliers += 1
+            print("La france a :", cavaliers, "cavaliers.")
+        if random_card == "none":
+            print("Il ne s'est rien passé.")
+
+
+
+
+### FIN DU JEU ###
+
+if soldiers == 0 and cavaliers == 0 and war_boat == 0 and war_aircraft == 0 and france == 1:
+    print("Vous avez perdu. Bien joué !")
+if soldiers == 0 and cavaliers == 0 and war_boat == 0 and war_aircraft == 0 and france == 0:
+    print("Vous avez gagné. Bien joué !")
+if soldiers_germany == 0 and cavaliers_germany == 0 and war_boat_germany == 0 and war_aircraft_germany == 0 and france == 1:
+    print("Vous avez gagné. Bien joué !")
+if soldiers_germany == 0 and cavaliers_germany == 0 and war_boat_germany == 0 and war_aircraft_germany == 0 and france == 0:
+    print("Vous avez perdu. Bien joué !")
