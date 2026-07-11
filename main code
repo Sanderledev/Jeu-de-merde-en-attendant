@@ -1,4 +1,5 @@
 import random
+import time
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 
@@ -178,7 +179,10 @@ print()
 print("--------------------------------------")
 print()
 
+
 ### Attaque du bot ###
+
+time.sleep(2)
 
 if france == 1:
     print("C'est le tour de l'allemagne !")
@@ -237,3 +241,8 @@ if soldiers_germany == 0 and cavaliers_germany == 0 and war_boat_germany == 0 an
     print("Vous avez gagné. Bien joué !")
 if soldiers_germany == 0 and cavaliers_germany == 0 and war_boat_germany == 0 and war_aircraft_germany == 0 and france == 0:
     print("Vous avez perdu. Bien joué !")
+
+
+    ### j'ai codé la fin de jeu + attaque du bot + demandé à anders comment on pourrait faire un système de ratio avec chat gpt + j'ai voulu simplifier ###
+    ### tous les if qu'il y avait ###
+    # j'ai aussi cherché des bibliothèques pour faire des ratios pour les troupes en bataille #
